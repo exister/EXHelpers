@@ -87,7 +87,11 @@
 }
 
 - (void)startUpdatingLocation {
+#ifdef DDLogInfo
     DDLogInfo(@"startUpdatingLocation");
+#else
+    NSLog(@"startUpdatingLocation");
+#endif
     if ([self locationServicesEnabled]) {
         [self start];
         [self.manager startUpdatingLocation];
@@ -95,7 +99,11 @@
 }
 
 - (void)startMonitoringSignificantLocationChanges {
+#ifdef DDLogInfo
     DDLogInfo(@"startMonitoringSignificantLocationChanges");
+#else
+    NSLog(@"startMonitoringSignificantLocationChanges");
+#endif
     if ([self locationServicesEnabled] && [CLLocationManager significantLocationChangeMonitoringAvailable]) {
         [self start];
         [self.manager startMonitoringSignificantLocationChanges];
@@ -103,12 +111,20 @@
 }
 
 - (void)stopUpdatingLocation {
+#ifdef DDLogInfo
     DDLogInfo(@"stopUpdatingLocation");
+#else
+    NSLog(@"stopUpdatingLocation");
+#endif
     [self.manager stopUpdatingLocation];
 }
 
 - (void)stopMonitoringSignificantLocationChanges {
+#ifdef DDLogInfo
     DDLogInfo(@"stopMonitoringSignificantLocationChanges");
+#else
+    NSLog(@"stopMonitoringSignificantLocationChanges");
+#endif
     [self.manager stopMonitoringSignificantLocationChanges];
 }
 
@@ -121,10 +137,18 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+#ifdef DDLogInfo
     DDLogInfo(@"didFailWithError: %@", error);
+#else
+    NSLog(@"didFailWithError: %@", error);
+#endif
 
     if ([error.domain isEqualToString:kCLErrorDomain] && error.code == kCLErrorDenied) {
+#ifdef DDLogInfo
         DDLogInfo(@"Location services denied");
+#else
+        NSLog(@"Location services denied");
+#endif
         //user denied location services so stop updating manager
         [manager stopUpdatingLocation];
         [manager stopMonitoringSignificantLocationChanges];
@@ -136,7 +160,11 @@
 }
 
 - (void)handleNewLocation:(CLLocation *)newLocation {
+#ifdef DDLogInfo
     DDLogInfo(@"handleNewLocation: %@", newLocation);
+#else
+    NSLog(@"handleNewLocation: %@", newLocation);
+#endif
     if ([self isValidLocation:newLocation]) {
         /* if location hasn't change, lets omit it */
         if (self.shouldRejectRepeatedLocations && self.currentLocation != nil && [self.currentLocation distanceFromLocation:newLocation] == 0) {

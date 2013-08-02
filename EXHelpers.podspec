@@ -10,4 +10,6 @@ Pod::Spec.new do |s|
   s.source_files = 'Source/*.{h,m}'
   s.resource     = 'Source/*.xib'
   s.requires_arc = true
+  s.dependency 'AFNetworking'
+  s.dependency 'AJNotificationView'
 end

@@ -6,11 +6,16 @@
 
 @implementation NSDate (EXTimeZone)
 
-- (NSDate *)toLocalTime
-{
+- (NSDate *)toLocalTime {
     NSTimeZone *systemTz = [NSTimeZone systemTimeZone];
     NSInteger systemOffset = [systemTz secondsFromGMTForDate:self];
     return [NSDate dateWithTimeInterval:systemOffset sinceDate:self];
+}
+
+- (NSDate *)toGlobalTime {
+    NSTimeZone *tz = [NSTimeZone localTimeZone];
+    NSInteger seconds = -[tz secondsFromGMTForDate:self];
+    return [NSDate dateWithTimeInterval:seconds sinceDate:self];
 }
 
 + (NSDate *)dateFromISO8601StringStrippingPrecision:(NSString *)iso8601 {

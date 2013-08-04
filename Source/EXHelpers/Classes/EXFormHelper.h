@@ -6,6 +6,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import "AFNetworking.h"
 
 #define kEXUnauthorizedFormErrorNotification @"kEXUnauthorizedFormErrorNotification"
 

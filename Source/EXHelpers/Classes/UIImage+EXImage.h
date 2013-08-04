@@ -10,4 +10,5 @@
 
 @interface UIImage (EXImage)
 + (UIImage *)imageWithColor:(UIColor *)color;
++ (UIImage *)imageNamed7:(NSString *)name;
 @end

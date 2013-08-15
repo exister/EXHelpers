@@ -49,7 +49,11 @@
         _client = [[EXRestAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kEXRestApiBaseUrl]];
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
         [_client setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+#ifdef DDLogInfo
             DDLogInfo(@"Reachability status changed: %d", status);
+#else
+            NSLog(@"Reachability status changed: %d", status);
+#endif
             
             NSDictionary *data = @{@"status": [NSNumber numberWithInt:status]};
             
@@ -83,11 +87,19 @@
 {
     [self.client getPath:path delegate:owner parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject)
     {
+#ifdef DDLogInfo
         DDLogInfo(@"EXRestAPI finished");
+#else
+        NSLog(@"EXRestAPI finished");
+#endif
         success(operation, responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
-        DDLogError(@"EXRestAPI failed");
+#ifdef DDLogInfo
+        DDLogInfo(@"EXRestAPI finished");
+#else
+        NSLog(@"EXRestAPI finished");
+#endif
         failure(operation, error);
     }];
 }
@@ -98,14 +110,26 @@
                 failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
                   owner:(id)owner
 {
+#ifdef DDLogInfo
     DDLogInfo(@"POST %@: %@", path, params);
+#else
+    NSLog(@"POST %@: %@", path, params);
+#endif
     [self.client postPath:path delegate:owner parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject)
     {
+#ifdef DDLogInfo
         DDLogInfo(@"EXRestAPI finished");
+#else
+        NSLog(@"EXRestAPI finished");
+#endif
         success(operation, responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
+#ifdef DDLogError
         DDLogError(@"EXRestAPI failed");
+#else
+        NSLog(@"EXRestAPI failed");
+#endif
         failure(operation, error);
     }];
 }
@@ -116,14 +140,26 @@
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
                  owner:(id)owner
 {
+#ifdef DDLogInfo
     DDLogInfo(@"PUT %@: %@", path, params);
+#else
+    NSLog(@"PUT %@: %@", path, params);
+#endif
     [self.client putPath:path delegate:owner parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject)
     {
+#ifdef DDLogInfo
         DDLogInfo(@"EXRestAPI finished");
+#else
+        NSLog(@"EXRestAPI finished");
+#endif
         success(operation, responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
+#ifdef DDLogError
         DDLogError(@"EXRestAPI failed");
+#else
+        NSLog(@"EXRestAPI failed");
+#endif
         failure(operation, error);
     }];
 }
@@ -136,11 +172,19 @@
 {
     [self.client deletePath:path delegate:owner parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject)
     {
+#ifdef DDLogInfo
         DDLogInfo(@"EXRestAPI finished");
+#else
+        NSLog(@"EXRestAPI finished");
+#endif
         success(operation, responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
+#ifdef DDLogError
         DDLogError(@"EXRestAPI failed");
+#else
+        NSLog(@"EXRestAPI failed");
+#endif
         failure(operation, error);
     }];
 }
@@ -153,11 +197,19 @@
 {
     [self.client patchPath:path delegate:owner parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject)
     {
+#ifdef DDLogInfo
         DDLogInfo(@"EXRestAPI finished");
+#else
+        NSLog(@"EXRestAPI finished");
+#endif
         success(operation, responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
+#ifdef DDLogError
         DDLogError(@"EXRestAPI failed");
+#else
+        NSLog(@"EXRestAPI failed");
+#endif
         failure(operation, error);
     }];
 }
@@ -174,7 +226,11 @@
                                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
                                  owner:(id)owner
 {
-    DDLogInfo(@"%@", THIS_METHOD);
+#ifdef DDLogInfo
+    DDLogInfo(@"%@", @"registerDeviceWithSuccessBlock");
+#else
+    NSLog(@"%@", @"registerDeviceWithSuccessBlock");
+#endif
     
     NSMutableDictionary *params = [@{} mutableCopy];
     [self makePOSTRequest:@"v1/device-registration/" params:params success:success failure:failure owner:owner];
@@ -185,7 +241,11 @@
                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
                     owner:(id)owner
 {
-    DDLogInfo(@"%@", THIS_METHOD);
+#ifdef DDLogInfo
+    DDLogInfo(@"%@", @"registerPushToken");
+#else
+    NSLog(@"%@", @"registerPushToken");
+#endif
     
     NSMutableDictionary *params = [@{
         @"push_id": pushToken

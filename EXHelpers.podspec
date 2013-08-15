@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name         = "EXHelpers"
-  s.version      = "0.0.5"
+  s.version      = "0.0.6"
   s.summary      = "Some common helpers"
   s.homepage     = "https://github.com/exister/EXHelpers.git"
   s.license      = 'MIT'
   s.author       = { "Mikhail Kuznetsov" => "mkuznetsov.dev@gmail.com" }
-  s.source       = { :git => "https://github.com/exister/EXHelpers.git", :tag => "0.0.5" }
+  s.source       = { :git => "https://github.com/exister/EXHelpers.git", :tag => "0.0.6" }
   s.platform     = :ios, '5.0'
   s.source_files = 'Source/ExHelpers/Classes/**/*.{h,m}'
   s.resource     = 'Source/EXHelpers/Resources/**/*.{xib,png}'
@@ -21,4 +21,18 @@ Pod::Spec.new do |s|
   s.dependency 'AJNotificationView'
   s.dependency 'MBProgressHUD'
   s.dependency 'SVPullToRefresh'
+
+  s.prefix_header_contents = <<-EOS
+#import <Availability.h>
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED
+  #import <SystemConfiguration/SystemConfiguration.h>
+  #import <MobileCoreServices/MobileCoreServices.h>
+  #import <Security/Security.h>
+#else
+  #import <SystemConfiguration/SystemConfiguration.h>
+  #import <CoreServices/CoreServices.h>
+  #import <Security/Security.h>
+#endif
+EOS
 end

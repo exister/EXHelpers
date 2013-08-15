@@ -67,16 +67,17 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
                  hideAfter:(NSTimeInterval)hideInterval
                     offset:(float)offset
                      delay:(NSTimeInterval)delayInterval {
-    return [self showNotice:notificationView inView:parentView hideAfter:hideInterval offset:offset delay:delayInterval response:nil];
+    return [self showNotice:notificationView inView:parentView hideAfter:hideInterval offset:offset height:PANELHEIGHT delay:delayInterval response:nil];
 }
 
 + (instancetype)showNotice:(UIView *)notificationView
                     inView:(UIView *)parentView
                  hideAfter:(NSTimeInterval)hideInterval
                     offset:(float)offset
+                    height:(float)height
                      delay:(NSTimeInterval)delayInterval
                   response:(void (^)(void))response {
-    EXLocalNotificationView *noticeView = [[self alloc] initWithFrame:CGRectMake(0, 0, parentView.bounds.size.width, 1) andResponseBlock:response];
+    EXLocalNotificationView *noticeView = [[self alloc] initWithFrame:CGRectMake(0.0, -height + offset, parentView.bounds.size.width, height) andResponseBlock:response];
     noticeView.backgroundColor = [UIColor clearColor];
 
     noticeView.contentView = notificationView;
@@ -128,7 +129,7 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
                          self.frame = CGRectMake(0.0,
                                  0.0 + self.offset,
                                  self.frame.size.width,
-                                 PANELHEIGHT);
+                                 self.frame.size.height);
                      }
                      completion:^(BOOL finished) {
                          if (finished){
@@ -151,9 +152,9 @@ static NSMutableArray *notificationQueue = nil;       // Global notification que
                      animations:^{
                          self.contentView.alpha = 0.0;
                          self.frame = CGRectMake(0.0,
-                                 0.0,
+                                 -self.frame.size.height + self.offset,
                                  self.frame.size.width,
-                                 1.0);
+                                 self.frame.size.height);
                      }
                      completion:^(BOOL finished) {
                          if (finished){

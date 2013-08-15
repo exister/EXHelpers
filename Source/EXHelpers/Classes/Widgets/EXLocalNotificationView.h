@@ -18,7 +18,7 @@
 
 + (instancetype)showNotice:(UIView *)notificationView inView:(UIView *)parentView hideAfter:(NSTimeInterval)hideInterval offset:(float)offset delay:(NSTimeInterval)delayInterval;
 
-+ (instancetype)showNotice:(UIView *)notificationView inView:(UIView *)parentView hideAfter:(NSTimeInterval)hideInterval offset:(float)offset delay:(NSTimeInterval)delayInterval response:(void (^)(void))response;
++ (instancetype)showNotice:(UIView *)notificationView inView:(UIView *)parentView hideAfter:(NSTimeInterval)hideInterval offset:(float)offset height:(float)height delay:(NSTimeInterval)delayInterval response:(void (^)(void))response;
 
 + (void)hideCurrentNotificationView;
 

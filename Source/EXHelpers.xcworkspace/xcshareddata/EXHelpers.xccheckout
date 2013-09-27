@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>73B7CC9D-30D2-41BC-BDAB-138B9FA331DC</string>
+	<key>IDESourceControlProjectName</key>
+	<string>EXHelpers</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>253A7B16-2F78-4546-AC23-FEEB89BD9002</key>
+		<string>file://localhost/Users/strelok/Library/Caches/CocoaPods/GitHub/a7f129229d47b74a225e1e2ed0bc604f35d71ac7/</string>
+		<key>31BC2478-8C20-4BB5-B160-D5903AB579B2</key>
+		<string>ssh://github.com/exister/EXHelpers.git</string>
+		<key>40E62C73-A44B-43ED-B2CB-1D9F825DBAE4</key>
+		<string>file://localhost/Users/strelok/Library/Caches/CocoaPods/GitHub/cfcf1b61f15e3e374dbfcf3482ccd3d6643ad9ed/</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Source/EXHelpers.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>253A7B16-2F78-4546-AC23-FEEB89BD9002</key>
+		<string>../Pods/AFNetworking</string>
+		<key>31BC2478-8C20-4BB5-B160-D5903AB579B2</key>
+		<string>../..</string>
+		<key>40E62C73-A44B-43ED-B2CB-1D9F825DBAE4</key>
+		<string>../Pods/AJNotificationView</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/exister/EXHelpers.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>31BC2478-8C20-4BB5-B160-D5903AB579B2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>253A7B16-2F78-4546-AC23-FEEB89BD9002</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AFNetworking</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>40E62C73-A44B-43ED-B2CB-1D9F825DBAE4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AJNotificationView</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>31BC2478-8C20-4BB5-B160-D5903AB579B2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>EXHelpers</string>
+		</dict>
+	</array>
+</dict>
+</plist>

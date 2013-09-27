@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		186E728317BCBE43006DB794 /* EXLocalNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E728217BCBE43006DB794 /* EXLocalNotificationView.m */; };
+		186FD07417F58DCF00A7CCC6 /* EXAppDelegateLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FD07117F58DCF00A7CCC6 /* EXAppDelegateLocationManager.m */; };
+		186FD07517F58DCF00A7CCC6 /* EXBaseAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FD07317F58DCF00A7CCC6 /* EXBaseAppDelegate.m */; };
 		18BCEF8417AE68BD003B22B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18BCEEA817AE4D28003B22B2 /* UIKit.framework */; };
 		18BCEF8517AE68BE003B22B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18BCEEAA17AE4D29003B22B2 /* Foundation.framework */; };
 		18BCEF8617AE68BE003B22B2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18BCEEAC17AE4D29003B22B2 /* CoreGraphics.framework */; };
@@ -53,6 +55,11 @@
 /* Begin PBXFileReference section */
 		186E728117BCBE43006DB794 /* EXLocalNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXLocalNotificationView.h; sourceTree = "<group>"; };
 		186E728217BCBE43006DB794 /* EXLocalNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXLocalNotificationView.m; sourceTree = "<group>"; };
+		186FD07017F58DCF00A7CCC6 /* EXAppDelegateLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXAppDelegateLocationManager.h; sourceTree = "<group>"; };
+		186FD07117F58DCF00A7CCC6 /* EXAppDelegateLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXAppDelegateLocationManager.m; sourceTree = "<group>"; };
+		186FD07217F58DCF00A7CCC6 /* EXBaseAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXBaseAppDelegate.h; sourceTree = "<group>"; };
+		186FD07317F58DCF00A7CCC6 /* EXBaseAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXBaseAppDelegate.m; sourceTree = "<group>"; };
+		186FD07617F58E8B00A7CCC6 /* EXConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXConfiguration.h; sourceTree = "<group>"; };
 		18BCEEA817AE4D28003B22B2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		18BCEEAA17AE4D29003B22B2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		18BCEEAC17AE4D29003B22B2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
@@ -143,6 +150,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		186FD06F17F58DCF00A7CCC6 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				186FD07017F58DCF00A7CCC6 /* EXAppDelegateLocationManager.h */,
+				186FD07117F58DCF00A7CCC6 /* EXAppDelegateLocationManager.m */,
+				186FD07217F58DCF00A7CCC6 /* EXBaseAppDelegate.h */,
+				186FD07317F58DCF00A7CCC6 /* EXBaseAppDelegate.m */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
 		1876FE4917AE4A680025A4E2 = {
 			isa = PBXGroup;
 			children = (
@@ -190,7 +208,9 @@
 		18BCEF2517AE61DA003B22B2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				186FD06F17F58DCF00A7CCC6 /* AppDelegate */,
 				18BCEF2617AE61DA003B22B2 /* API */,
+				18BCEF4B17AE61DA003B22B2 /* Widgets */,
 				18BCEF2B17AE61DA003B22B2 /* EXEmptyView.h */,
 				18BCEF2C17AE61DA003B22B2 /* EXEmptyView.m */,
 				18BCEF2D17AE61DA003B22B2 /* EXFormHelper.h */,
@@ -223,7 +243,7 @@
 				18BCEF4817AE61DA003B22B2 /* UIViewController+EXInfiniteLoading.m */,
 				18BCEF4917AE61DA003B22B2 /* UIViewController+EXStoryBoard.h */,
 				18BCEF4A17AE61DA003B22B2 /* UIViewController+EXStoryBoard.m */,
-				18BCEF4B17AE61DA003B22B2 /* Widgets */,
+				186FD07617F58E8B00A7CCC6 /* EXConfiguration.h */,
 			);
 			name = Classes;
 			path = EXHelpers/Classes;
@@ -407,10 +427,12 @@
 			files = (
 				18BCEF8E17AE68BE003B22B2 /* main.m in Sources */,
 				18BCEF9217AE68BE003B22B2 /* AppDelegate.m in Sources */,
+				186FD07517F58DCF00A7CCC6 /* EXBaseAppDelegate.m in Sources */,
 				18BCEF9C17AE68EF003B22B2 /* EXRestAPI.m in Sources */,
 				18BCEF9D17AE68EF003B22B2 /* EXRestAPIClient.m in Sources */,
 				18BCEF9E17AE68FD003B22B2 /* EXEmptyView.m in Sources */,
 				18BCEF9F17AE68FD003B22B2 /* EXFormHelper.m in Sources */,
+				186FD07417F58DCF00A7CCC6 /* EXAppDelegateLocationManager.m in Sources */,
 				18BCEFA017AE68FD003B22B2 /* EXLocationManager.m in Sources */,
 				18BCEFA117AE68FD003B22B2 /* EXMapHelper.m in Sources */,
 				18BCEFA217AE68FD003B22B2 /* EXRegistrationHelper.m in Sources */,

@@ -8,8 +8,6 @@
 
 #import "AppDelegate.h"
 
-int const ddLogLevel = LOG_LEVEL_VERBOSE;
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name         = "EXHelpers"
-  s.version      = "0.0.8"
+  s.version      = "0.0.9"
   s.summary      = "Some common helpers"
   s.homepage     = "https://github.com/exister/EXHelpers.git"
   s.license      = 'MIT'
   s.author       = { "Mikhail Kuznetsov" => "mkuznetsov.dev@gmail.com" }
-  s.source       = { :git => "https://github.com/exister/EXHelpers.git", :tag => "0.0.8" }
+  s.source       = { :git => "https://github.com/exister/EXHelpers.git", :tag => "0.0.9" }
   s.platform     = :ios, '6.1'
   s.source_files = 'Source/ExHelpers/Classes/**/*.{h,m}'
   s.resource     = 'Source/EXHelpers/Resources/**/*.{xib,png}'

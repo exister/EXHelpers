@@ -14,6 +14,8 @@
 
 - (void)startObserving;
 
++ (NSString *)keychainServiceName;
+
 + (NSString *)authToken;
 
 + (void)setAuthToken:(NSString *)token;

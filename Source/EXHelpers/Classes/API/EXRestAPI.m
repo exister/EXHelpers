@@ -14,13 +14,20 @@
 *
 * @return id
 */
-+ (instancetype)sharedInstance
++ (id)sharedInstance
 {
     static id sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
-    });
+    static NSMutableDictionary *_sharedInstances = nil;
+    @synchronized(self) {
+		NSString *instanceClass = NSStringFromClass(self);
+        
+		sharedInstance = [_sharedInstances objectForKey:instanceClass];
+		if (sharedInstance == nil) {
+			sharedInstance = [[[self class] alloc] init];
+			[_sharedInstances setObject:sharedInstance forKey:instanceClass];
+		}
+	}
+    
     return sharedInstance;
 }
 

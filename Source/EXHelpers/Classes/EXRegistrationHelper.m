@@ -60,7 +60,12 @@ static NSNumber *cachedDeviceRegistered = nil;
 + (void)setAuthToken:(NSString *)token
 {
     cachedAuthToken = token;
-    [SSKeychain setPassword:token forService:[self keychainServiceName] account:kEXAuthTokenAccount];
+    if (token == nil) {
+        [SSKeychain deletePasswordForService:[self keychainServiceName] account:kEXAuthTokenAccount];
+    }
+    else {
+        [SSKeychain setPassword:token forService:[self keychainServiceName] account:kEXAuthTokenAccount];
+    }
 }
 
 + (NSString *)deviceId
@@ -74,7 +79,12 @@ static NSNumber *cachedDeviceRegistered = nil;
 + (void)setDeviceId:(NSString *)deviceID
 {
     cachedDeviceId = deviceID;
-    [SSKeychain setPassword:deviceID forService:[self keychainServiceName] account:kEXDeviceIdAccount];
+    if (deviceID == nil) {
+        [SSKeychain deletePasswordForService:[self keychainServiceName] account:kEXDeviceIdAccount];
+    }
+    else {
+        [SSKeychain setPassword:deviceID forService:[self keychainServiceName] account:kEXDeviceIdAccount];
+    }
 }
 
 + (BOOL)isAuthenticated

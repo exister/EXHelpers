@@ -10,6 +10,10 @@
 
 @property (nonatomic, strong) EXRestAPIClient *client;
 
+- (id)initWithClientClass:(NSString *)clientClass;
+
++ (NSString *)clientClass;
+
 + (id)sharedInstance;
 
 - (void)makeGETRequest:(NSString *)path params:(NSMutableDictionary *)params success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure owner:(id)owner;

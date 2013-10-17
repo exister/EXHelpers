@@ -9,6 +9,10 @@
 
 @implementation EXRestAPI
 
++ (NSString *)clientClass {
+    return @"EXRestAPIClient";
+}
+
 /**
 * Singleton
 *
@@ -19,23 +23,26 @@
     static id sharedInstance = nil;
     static NSMutableDictionary *_sharedInstances = nil;
     @synchronized(self) {
-		NSString *instanceClass = NSStringFromClass(self);
+        if (_sharedInstances == nil) {
+            _sharedInstances = [NSMutableDictionary dictionary];
+        }
+        NSString *instanceClass = NSStringFromClass(self);
         
-		sharedInstance = [_sharedInstances objectForKey:instanceClass];
-		if (sharedInstance == nil) {
-			sharedInstance = [[[self class] alloc] init];
-			[_sharedInstances setObject:sharedInstance forKey:instanceClass];
-		}
-	}
+        sharedInstance = [_sharedInstances objectForKey:instanceClass];
+        if (sharedInstance == nil) {
+            sharedInstance = [[[self class] alloc] initWithClientClass:[self clientClass]];
+            [_sharedInstances setObject:sharedInstance forKey:instanceClass];
+        }
+    }
     
     return sharedInstance;
 }
 
-- (id)init
+- (id)initWithClientClass:(NSString *)clientClass
 {
     if (self = [super init]) {
 #warning Check that base url is defined
-        _client = [[EXRestAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kEXRestApiBaseUrl]];
+        _client = [[NSClassFromString(clientClass) alloc] initWithBaseURL:[NSURL URLWithString:kEXRestApiBaseUrl]];
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
         [_client setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 #ifdef DDLogInfo

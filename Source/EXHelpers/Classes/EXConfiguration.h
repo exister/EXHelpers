@@ -32,12 +32,6 @@ extern int const ddLogLevel;
 #define kEXSplashScreenFinished @"kEXSplashScreenFinished"
 #define kEXDeviceRegisteredNotification @"kEXDeviceRegisteredNotification"
 
-/**
- * Rest API Configuration
- */
-#ifndef kEXRestApiBaseUrl
-    #define kEXRestApiBaseUrl @"http://127.0.0.1:8000/api"
-#endif
 
 #define kEXNetworkUnreachableStatus @"kEXNetworkUnreachableStatus"
 #define kEXNetworkReachableViaWWANStatus @"kEXNetworkReachableViaWWANStatus"

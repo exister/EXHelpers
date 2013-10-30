@@ -2,15 +2,15 @@
 #import "EXRestAPIClient.h"
 #import "AFNetworkActivityIndicatorManager.h"
 
-#ifndef kEXRestApiBaseUrl
-    #define kEXRestApiBaseUrl @"http://127.0.0.1:8000"
-#endif
-
 
 @implementation EXRestAPI
 
 + (NSString *)clientClass {
     return @"EXRestAPIClient";
+}
+
++ (NSString *)baseUrl {
+    return @"http://127.0.0.1:8000";
 }
 
 /**
@@ -42,7 +42,7 @@
 {
     if (self = [super init]) {
 #warning Check that base url is defined
-        _client = [[NSClassFromString(clientClass) alloc] initWithBaseURL:[NSURL URLWithString:kEXRestApiBaseUrl]];
+        _client = [[NSClassFromString(clientClass) alloc] initWithBaseURL:[NSURL URLWithString:[[self class] baseUrl]]];
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
         [_client setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 #ifdef DDLogInfo

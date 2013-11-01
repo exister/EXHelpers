@@ -4,12 +4,6 @@
 #import "EXInvalidTooltipImageView.h"
 
 
-@interface EXValidatableTextField ()
-@property (nonatomic, copy) NSString *errorMessage;
-@property (nonatomic, strong) EXInvalidTooltipImageView *tooltip;
-@property (nonatomic, strong) UITapGestureRecognizer *tooltipTap;
-@end
-
 @implementation EXValidatableTextField {
 
 }

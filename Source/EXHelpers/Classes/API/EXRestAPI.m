@@ -42,7 +42,8 @@
 {
     if (self = [super init]) {
 #warning Check that base url is defined
-        _client = [[NSClassFromString(clientClass) alloc] initWithBaseURL:[NSURL URLWithString:[[self class] baseUrl]]];
+        NSURL *baseUrl = [NSURL URLWithString:[[self class] baseUrl]];
+        _client = [[NSClassFromString(clientClass) alloc] initWithBaseURL:baseUrl];
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
         [_client setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 #ifdef DDLogInfo
@@ -50,9 +51,8 @@
 #else
             NSLog(@"Reachability status changed: %d", status);
 #endif
-            
-            NSDictionary *data = @{@"status": [NSNumber numberWithInt:status]};
-            
+            NSDictionary *data = @{@"status": [NSNumber numberWithInt:status], @"baseUrl": baseUrl};
+
             [[NSNotificationCenter defaultCenter] postNotificationName:kEXReachabilityChangedNotification object:nil userInfo:data];
         }];
     }

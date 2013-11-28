@@ -133,6 +133,7 @@
 		18BCEF9717AE68BE003B22B2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1B69978F2C6A4744B8FE5FAA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		35A1C7E4AF0C4332986B7EFF /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		8FD4C02E01D95A968A7DA571 /* LogConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogConfig.h; sourceTree = "<group>"; };
 		8FD4C069B785B4541D7581CF /* EXRestAPISessionClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXRestAPISessionClient.h; sourceTree = "<group>"; };
 		8FD4C456C9ED365BA9066BC8 /* EXRestAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXRestAPIHelper.h; sourceTree = "<group>"; };
 		8FD4C6DB99C12121A80966D1 /* EXSessionRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXSessionRestAPI.h; sourceTree = "<group>"; };
@@ -256,6 +257,7 @@
 				18BCEF4917AE61DA003B22B2 /* UIViewController+EXStoryBoard.h */,
 				18BCEF4A17AE61DA003B22B2 /* UIViewController+EXStoryBoard.m */,
 				186FD07617F58E8B00A7CCC6 /* EXConfiguration.h */,
+				8FD4C02E01D95A968A7DA571 /* LogConfig.h */,
 			);
 			name = Classes;
 			path = EXHelpers/Classes;

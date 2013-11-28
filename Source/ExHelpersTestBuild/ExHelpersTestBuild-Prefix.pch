@@ -19,6 +19,4 @@
 #ifdef __OBJC__
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-extern int const ddLogLevel;
-#import "DDLog.h"
 #endif

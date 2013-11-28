@@ -8,6 +8,7 @@
 #import "EXRestAPIClient.h"
 #import "EXRestAPISessionClient.h"
 #import "EXRestAPI.h"
+#import "LogConfig.h"
 
 
 @implementation EXSessionRestAPI {

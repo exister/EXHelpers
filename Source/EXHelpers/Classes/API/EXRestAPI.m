@@ -1,6 +1,7 @@
 #import "EXRestAPI.h"
 #import "EXRestAPIClient.h"
 #import "AFNetworkActivityIndicatorManager.h"
+#import "LogConfig.h"
 
 
 @implementation EXRestAPI

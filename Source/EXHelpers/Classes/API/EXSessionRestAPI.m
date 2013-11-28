@@ -1,13 +1,22 @@
-#import "EXRestAPI.h"
+//
+// Created by strelok on 28.11.13.
+//
+
+
+#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
+#import "EXSessionRestAPI.h"
 #import "EXRestAPIClient.h"
-#import "AFNetworkActivityIndicatorManager.h"
+#import "EXRestAPISessionClient.h"
+#import "EXRestAPI.h"
 #import "LogConfig.h"
 
 
-@implementation EXRestAPI
+@implementation EXSessionRestAPI {
+
+}
 
 + (NSString *)clientClass {
-    return @"EXRestAPIClient";
+    return @"EXRestAPISessionClient";
 }
 
 + (NSString *)baseUrl {
@@ -28,14 +37,14 @@
             _sharedInstances = [NSMutableDictionary dictionary];
         }
         NSString *instanceClass = NSStringFromClass(self);
-        
+
         sharedInstance = [_sharedInstances objectForKey:instanceClass];
         if (sharedInstance == nil) {
             sharedInstance = [[[self class] alloc] initWithClientClass:[self clientClass]];
             [_sharedInstances setObject:sharedInstance forKey:instanceClass];
         }
     }
-    
+
     return sharedInstance;
 }
 
@@ -67,109 +76,93 @@
     return self.client.reachabilityManager.networkReachabilityStatus;
 }
 
-/**
-* Makes actual request
-*
-* Adds required parameters to each request.
-*
-* @param params GET-parameters
-* @param delegate Delegate than will be notified upon request completion
-*/
 - (void)makeGETRequest:(NSString *)path
                 params:(NSMutableDictionary *)params
-                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
-                  owner:(id)owner
+               success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+               failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
+                 owner:(id)owner
 {
     DDLogInfo(@"(%@, %d, %@): ", THIS_FILE, __LINE__, THIS_METHOD);
 
-    [self.client GET:path parameters:params delegate:owner success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.client GET:path parameters:params delegate:owner success:^(NSURLSessionDataTask *task, id responseObject) {
         DDLogInfo(@"(%@, %d, %@): EXRestAPI GET %@ finished", THIS_FILE, __LINE__, THIS_METHOD, path);
-        success(operation, responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        success(task, responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
         DDLogInfo(@"(%@, %d, %@): EXRestAPI GET %@ failed", THIS_FILE, __LINE__, THIS_METHOD, path);
-        failure(operation, error);
+        failure(task, error);
     }];
 }
 
 - (void)makePOSTRequest:(NSString *)path
                  params:(NSMutableDictionary *)params
-                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+                success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+                failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
                   owner:(id)owner
 {
     DDLogInfo(@"(%@, %d, %@): ", THIS_FILE, __LINE__, THIS_METHOD);
 
-    [self.client POST:path parameters:params delegate:owner success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.client POST:path parameters:params delegate:owner success:^(NSURLSessionDataTask *task, id responseObject) {
         DDLogInfo(@"(%@, %d, %@): EXRestAPI POST %@ finished", THIS_FILE, __LINE__, THIS_METHOD, path);
-        success(operation, responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        success(task, responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
         DDLogInfo(@"(%@, %d, %@): EXRestAPI POST %@ failed", THIS_FILE, __LINE__, THIS_METHOD, path);
-        failure(operation, error);
+        failure(task, error);
     }];
 }
 
 - (void)makePUTRequest:(NSString *)path
                 params:(NSMutableDictionary *)params
-               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+               success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+               failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
                  owner:(id)owner
 {
     DDLogInfo(@"(%@, %d, %@): ", THIS_FILE, __LINE__, THIS_METHOD);
 
-    [self.client PUT:path parameters:params delegate:owner success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.client PUT:path parameters:params delegate:owner success:^(NSURLSessionDataTask *task, id responseObject) {
         DDLogInfo(@"(%@, %d, %@): EXRestAPI PUT %@ finished", THIS_FILE, __LINE__, THIS_METHOD, path);
-        success(operation, responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        success(task, responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
         DDLogInfo(@"(%@, %d, %@): EXRestAPI PUT %@ failed", THIS_FILE, __LINE__, THIS_METHOD, path);
-        failure(operation, error);
+        failure(task, error);
     }];
 }
 
 - (void)makeDELETERequest:(NSString *)path
                    params:(NSMutableDictionary *)params
-                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+                  success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+                  failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
                     owner:(id)owner
 {
     DDLogInfo(@"(%@, %d, %@): ", THIS_FILE, __LINE__, THIS_METHOD);
 
-    [self.client DELETE:path parameters:params delegate:owner success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.client DELETE:path parameters:params delegate:owner success:^(NSURLSessionDataTask *task, id responseObject) {
         DDLogInfo(@"(%@, %d, %@): EXRestAPI DELETE %@ finished", THIS_FILE, __LINE__, THIS_METHOD, path);
-        success(operation, responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        success(task, responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
         DDLogInfo(@"(%@, %d, %@): EXRestAPI DELETE %@ failed", THIS_FILE, __LINE__, THIS_METHOD, path);
-        failure(operation, error);
+        failure(task, error);
     }];
 }
 
 - (void)makePATCHRequest:(NSString *)path
                   params:(NSMutableDictionary *)params
-                 success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                 failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+                 success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+                 failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
                    owner:(id)owner
 {
     DDLogInfo(@"(%@, %d, %@): ", THIS_FILE, __LINE__, THIS_METHOD);
 
-    [self.client PATCH:path parameters:params delegate:owner success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.client PATCH:path parameters:params delegate:owner success:^(NSURLSessionDataTask *task, id responseObject) {
         DDLogInfo(@"(%@, %d, %@): EXRestAPI PATCH %@ finished", THIS_FILE, __LINE__, THIS_METHOD, path);
-        success(operation, responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        success(task, responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
         DDLogInfo(@"(%@, %d, %@): EXRestAPI PATCH %@ failed", THIS_FILE, __LINE__, THIS_METHOD, path);
-        failure(operation, error);
+        failure(task, error);
     }];
 }
 
-/**
-* Cancels all requests associated with given delegate
-*/
-- (void)cancelAllRequestsForDelegate:(id)delegate
-{
-    [self.client cancelAllOperationsForDelegate:delegate];
-}
-
-- (void)registerDeviceWithSuccessBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (void)registerDeviceWithSuccessBlock:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+                               failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
                                  owner:(id)owner
 {
     DDLogInfo(@"(%@, %d, %@): ", THIS_FILE, __LINE__, THIS_METHOD);
@@ -179,16 +172,15 @@
 }
 
 - (void)registerPushToken:(NSString *)pushToken
-                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+                  success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+                  failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
                     owner:(id)owner
 {
     DDLogInfo(@"(%@, %d, %@): ", THIS_FILE, __LINE__, THIS_METHOD);
-    
+
     NSMutableDictionary *params = [@{
-        @"push_id": pushToken
+            @"push_id": pushToken
     } mutableCopy];
     [self makePUTRequest:@"v1/device-register-push-token/" params:params success:success failure:failure owner:owner];
 }
-
 @end

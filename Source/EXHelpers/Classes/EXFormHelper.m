@@ -6,7 +6,6 @@
 
 
 #import <AFNetworking/AFHTTPRequestOperation.h>
-#import <AFNetworking/AFJSONRequestOperation.h>
 #import <AJNotificationView/AJNotificationView.h>
 #import "EXFormHelper.h"
 
@@ -26,7 +25,7 @@
 
 + (void)handleFormErrors:(AFHTTPRequestOperation *)operation fields:(NSDictionary *)fields defaultMessage:(NSString *)message view:(UIView *)view {
     if (operation.response.statusCode == 400) {
-        id JSON = ((AFJSONRequestOperation *)operation).responseJSON;
+        id JSON = operation.responseObject;
         NSArray *nonFieldErrors = JSON[@"non_field_errors"];
         if (nonFieldErrors != nil) {
             [AJNotificationView showNoticeInView:view.window

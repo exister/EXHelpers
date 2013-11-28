@@ -1,9 +1,5 @@
 #import <objc/runtime.h>
 #import "EXRestAPIClient.h"
-#import "AFNetworking.h"
-#import "EXRestAPI.h"
-#import "EXRegistrationHelper.h"
-
 
 /**
 * Maintains list of delegates, so each of them could cancel all requests associated with it.
@@ -18,125 +14,162 @@ static char kEXRestAPIOperationDelegateObjectKey;
 
 }
 
+- (NSTimeInterval)onlineTimeout {
+    return 1;
+}
+
+- (NSTimeInterval)offlineTimeout {
+    return 10;
+}
+
 - (id)initWithBaseURL:(NSURL *)url
 {
     self = [super initWithBaseURL:url];
     if (self) {
-        NSString *applicationName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleIdentifierKey];
-        NSString *applicationVersion = (__bridge id)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey) ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-        CGFloat scale = [[UIScreen mainScreen] scale];
-        NSString *screenSize = [NSString stringWithFormat:@"%dx%d", (NSInteger)([UIScreen mainScreen].bounds.size.width * scale), (NSInteger)([UIScreen mainScreen].bounds.size.height * scale)];
-
-        [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-        [self setDefaultHeader:@"Accept" value:@"application/json"];
-        [self setDefaultHeader:@"Device-ID" value:[EXRegistrationHelper deviceId]];
-        [self setDefaultHeader:@"Push-ID" value:[EXRegistrationHelper pushToken]];
-        [self setDefaultHeader:@"Device-OS" value:@"iOS"];
-        [self setDefaultHeader:@"Device-OS-Version" value:[[UIDevice currentDevice] systemVersion]];
-        [self setDefaultHeader:@"Device-Model" value:[[UIDevice currentDevice] model]];
-        [self setDefaultHeader:@"Device-Screen-Size" value:screenSize];
-        [self setDefaultHeader:@"Application" value:applicationName];
-        [self setDefaultHeader:@"Application-Version" value:applicationVersion];
-        if ([EXRegistrationHelper authToken]) {
-            [self setDefaultHeader:@"Authorization" value:[NSString stringWithFormat:@"Token %@", [EXRegistrationHelper authToken]]];
-        }
-
-        self.parameterEncoding = AFJSONParameterEncoding;
+        [EXRestAPIHelper setupFor:self];
     }
 
     return self;
 }
 
-- (NSMutableURLRequest *)requestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters {
-    [self setDefaultHeader:@"Device-ID" value:[EXRegistrationHelper deviceId]];
-    [self setDefaultHeader:@"Push-ID" value:[EXRegistrationHelper pushToken]];
-    NSMutableURLRequest *request = [super requestWithMethod:method path:path parameters:parameters];
-    if (self.networkReachabilityStatus == AFNetworkReachabilityStatusNotReachable) {
-        [request setTimeoutInterval:1];
-    }
-    else {
-        [request setTimeoutInterval:10];
-    }
+- (NSMutableURLRequest *)requestWithMethod:(NSString *)method
+                                 URLString:(NSString *)URLString
+                                parameters:(NSDictionary *)parameters {
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:URLString parameters:parameters];
+
+    [EXRestAPIHelper setTimeOutForRequest:request client:self];
+
+    return request;
+}
+
+- (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
+                                              URLString:(NSString *)URLString
+                                             parameters:(NSDictionary *)parameters
+                              constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block {
+
+    NSMutableURLRequest *request = [self.requestSerializer multipartFormRequestWithMethod:method
+                                                 URLString:URLString
+                                                parameters:parameters
+                                 constructingBodyWithBlock:block];
+
+    [EXRestAPIHelper setTimeOutForRequest:request client:self];
+
     return request;
 }
 
 
-/** Makes request, maps list of operations to given delegate;
-*
-* @param path Relative url
-* @param delegate Delegate
-* @param parameters GET-params
-* @param success Completion block
-* @param failure Failure block
-*/
-- (void)getPath:(NSString *)path
-        delegate:(id)delegate
-        parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (AFHTTPRequestOperation *)GET:(NSString *)URLString
+                     parameters:(NSDictionary *)parameters
+                       delegate:(id)delegate
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-    NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
+    NSMutableURLRequest *request = [self requestWithMethod:@"GET" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
 
     objc_setAssociatedObject(operation, &kEXRestAPIOperationDelegateObjectKey, delegate, OBJC_ASSOCIATION_ASSIGN);
 
-    [self enqueueHTTPRequestOperation:operation];
+    [self.operationQueue addOperation:operation];
+
+    return operation;
 }
 
-- (void)postPath:(NSString *)path
-        delegate:(id)delegate
-        parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (AFHTTPRequestOperation *)HEAD:(NSString *)URLString
+                      parameters:(NSDictionary *)parameters
+                        delegate:(id)delegate
+                         success:(void (^)(AFHTTPRequestOperation *operation))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-    NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    NSMutableURLRequest *request = [self requestWithMethod:@"HEAD" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *requestOperation, __unused id responseObject) {
+        if (success) {
+            success(requestOperation);
+        }
+    } failure:failure];
+    [self.operationQueue addOperation:operation];
 
-    objc_setAssociatedObject(operation, &kEXRestAPIOperationDelegateObjectKey, delegate, OBJC_ASSOCIATION_ASSIGN);
-
-    [self enqueueHTTPRequestOperation:operation];
+    return operation;
 }
 
-- (void)putPath:(NSString *)path
-        delegate:(id)delegate
-        parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+                      parameters:(NSDictionary *)parameters
+                        delegate:(id)delegate
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-    NSURLRequest *request = [self requestWithMethod:@"PUT" path:path parameters:parameters];
+    NSMutableURLRequest *request = [self requestWithMethod:@"POST" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
 
     objc_setAssociatedObject(operation, &kEXRestAPIOperationDelegateObjectKey, delegate, OBJC_ASSOCIATION_ASSIGN);
 
-    [self enqueueHTTPRequestOperation:operation];
+    [self.operationQueue addOperation:operation];
+
+    return operation;
 }
 
-- (void)deletePath:(NSString *)path
-        delegate:(id)delegate
-        parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+                      parameters:(NSDictionary *)parameters
+                        delegate:(id)delegate
+       constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-    NSURLRequest *request = [self requestWithMethod:@"DELETE" path:path parameters:parameters];
+    NSMutableURLRequest *request = [self multipartFormRequestWithMethod:@"POST" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters constructingBodyWithBlock:block];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
 
     objc_setAssociatedObject(operation, &kEXRestAPIOperationDelegateObjectKey, delegate, OBJC_ASSOCIATION_ASSIGN);
 
-    [self enqueueHTTPRequestOperation:operation];
+    [self.operationQueue addOperation:operation];
+
+    return operation;
 }
 
-- (void)patchPath:(NSString *)path
-        delegate:(id)delegate
-        parameters:(NSDictionary *)parameters
-        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (AFHTTPRequestOperation *)PUT:(NSString *)URLString
+                     parameters:(NSDictionary *)parameters
+                       delegate:(id)delegate
+                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-    NSURLRequest *request = [self requestWithMethod:@"PATCH" path:path parameters:parameters];
+    NSMutableURLRequest *request = [self requestWithMethod:@"PUT" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
 
     objc_setAssociatedObject(operation, &kEXRestAPIOperationDelegateObjectKey, delegate, OBJC_ASSOCIATION_ASSIGN);
 
-    [self enqueueHTTPRequestOperation:operation];
+    [self.operationQueue addOperation:operation];
+
+    return operation;
+}
+
+- (AFHTTPRequestOperation *)PATCH:(NSString *)URLString
+                       parameters:(NSDictionary *)parameters
+                         delegate:(id)delegate
+                          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableURLRequest *request = [self requestWithMethod:@"PATCH" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+
+    objc_setAssociatedObject(operation, &kEXRestAPIOperationDelegateObjectKey, delegate, OBJC_ASSOCIATION_ASSIGN);
+
+    [self.operationQueue addOperation:operation];
+
+    return operation;
+}
+
+- (AFHTTPRequestOperation *)DELETE:(NSString *)URLString
+                        parameters:(NSDictionary *)parameters
+                          delegate:(id)delegate
+                           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableURLRequest *request = [self requestWithMethod:@"DELETE" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+
+    objc_setAssociatedObject(operation, &kEXRestAPIOperationDelegateObjectKey, delegate, OBJC_ASSOCIATION_ASSIGN);
+
+    [self.operationQueue addOperation:operation];
+
+    return operation;
 }
 
 /** Cancels all operations associated with delegate

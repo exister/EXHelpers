@@ -20,6 +20,7 @@
 #import "EXRestAPI.h"
 #import "NSString+SSToolkitAdditions.h"
 #import "EXConfiguration.h"
+#import "LogConfig.h"
 
 
 #ifdef LOCAL
@@ -42,15 +43,6 @@
 
 #if RUN_KIF_TESTS
     #import__CLASS__PREFIX__TestControllerstController.h"
-#endif
-
-/**
-* Global logging level
-*/
-#ifdef DEBUG
-    int const ddLogLevel = LOG_LEVEL_VERBOSE;
-#else
-    int const ddLogLevel = LOG_LEVEL_WARN;
 #endif
 
 

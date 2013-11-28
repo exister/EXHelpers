@@ -1,9 +1,18 @@
 #import <Foundation/Foundation.h>
 #import <AFNetworking/AFHTTPRequestOperationManager.h>
+#import "EXRestAPIHelper.h"
 
 @class AFHTTPRequestOperation;
 
-@interface EXRestAPIClient : AFHTTPRequestOperationManager
+@interface EXRestAPIClient : AFHTTPRequestOperationManager <EXRestAPIClientProtocol>
+
+- (NSTimeInterval)onlineTimeout;
+
+- (NSTimeInterval)offlineTimeout;
+
+- (NSMutableURLRequest *)requestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters;
+
+- (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block;
 
 - (AFHTTPRequestOperation *)GET:(NSString *)URLString parameters:(NSDictionary *)parameters delegate:(id)delegate success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 

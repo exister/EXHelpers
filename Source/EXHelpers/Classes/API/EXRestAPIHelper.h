@@ -6,8 +6,15 @@
 #import <Foundation/Foundation.h>
 
 @protocol EXRestAPIClientProtocol
+
 @property (nonatomic, strong) AFHTTPRequestSerializer <AFURLRequestSerialization> * requestSerializer;
+
 @property (readonly, nonatomic, strong) AFNetworkReachabilityManager *reachabilityManager;
+
+- (NSTimeInterval)onlineTimeout;
+
+- (NSTimeInterval)offlineTimeout;
+
 @end
 
 @interface EXRestAPIHelper : NSObject

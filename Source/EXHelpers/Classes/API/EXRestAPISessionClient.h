@@ -5,9 +5,18 @@
 
 #import <Foundation/Foundation.h>
 #import <AFNetworking/AFHTTPSessionManager.h>
+#import "EXRestAPIHelper.h"
 
 
-@interface EXRestAPISessionClient : AFHTTPSessionManager
+@interface EXRestAPISessionClient : AFHTTPSessionManager <EXRestAPIClientProtocol>
+
+- (NSTimeInterval)onlineTimeout;
+
+- (NSTimeInterval)offlineTimeout;
+
+- (NSMutableURLRequest *)requestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters;
+
+- (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block;
 
 - (NSURLSessionDataTask *)GET:(NSString *)URLString parameters:(NSDictionary *)parameters delegate:(id)delegate success:(void (^)(NSURLSessionDataTask *task, id responseObject))success failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure;
 

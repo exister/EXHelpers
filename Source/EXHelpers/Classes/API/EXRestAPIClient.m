@@ -1,7 +1,5 @@
 #import <objc/runtime.h>
 #import "EXRestAPIClient.h"
-#import "EXRestAPIHelper.h"
-
 
 /**
 * Maintains list of delegates, so each of them could cancel all requests associated with it.
@@ -11,15 +9,17 @@
 static char kEXRestAPIOperationDelegateObjectKey;
 
 
-@interface EXRestAPIClient ()
-- (NSMutableURLRequest *)requestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters;
-
-- (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block;
-@end
-
 @implementation EXRestAPIClient
 {
 
+}
+
+- (NSTimeInterval)onlineTimeout {
+    return 1;
+}
+
+- (NSTimeInterval)offlineTimeout {
+    return 10;
 }
 
 - (id)initWithBaseURL:(NSURL *)url

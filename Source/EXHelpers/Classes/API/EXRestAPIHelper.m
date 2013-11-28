@@ -35,10 +35,10 @@
 
 + (void)setTimeOutForRequest:(NSMutableURLRequest *)request client:(id)client {
     if (((id <EXRestAPIClientProtocol>)client).reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusNotReachable) {
-        [request setTimeoutInterval:1];
+        [request setTimeoutInterval:((id <EXRestAPIClientProtocol>)client).onlineTimeout];
     }
     else {
-        [request setTimeoutInterval:10];
+        [request setTimeoutInterval:((id <EXRestAPIClientProtocol>)client).offlineTimeout];
     }
 }
 

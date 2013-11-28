@@ -4,17 +4,18 @@
 
 
 #import "EXRestAPISessionClient.h"
-#import "EXRestAPIHelper.h"
 
-
-@interface EXRestAPISessionClient ()
-- (NSMutableURLRequest *)requestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters;
-
-- (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method URLString:(NSString *)URLString parameters:(NSDictionary *)parameters constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block;
-@end
 
 @implementation EXRestAPISessionClient {
 
+}
+
+- (NSTimeInterval)onlineTimeout {
+    return 1;
+}
+
+- (NSTimeInterval)offlineTimeout {
+    return 10;
 }
 
 - (id)initWithBaseURL:(NSURL *)url

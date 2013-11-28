@@ -49,6 +49,10 @@
 		18BCEFB917AE699C003B22B2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18BCEF7B17AE678E003B22B2 /* CoreLocation.framework */; };
 		18BCEFBA17AE69A1003B22B2 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18BCEF7917AE6572003B22B2 /* MobileCoreServices.framework */; };
 		18BCEFBB17AE69A7003B22B2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18BCEF7717AE656D003B22B2 /* SystemConfiguration.framework */; };
+		8FD4C0D378F3CBF39C73A5BF /* EXRestAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4CFD8F5BC1A611237FAE6 /* EXRestAPIHelper.m */; };
+		8FD4C529A56CD1CF5D276A6C /* EXSessionRestAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4CC15EC2FEAE7D07FA76A /* EXSessionRestAPI.m */; };
+		8FD4C6FCC4B751D34977FC88 /* EXJSONRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4C6EA1BCBD671DAE46762 /* EXJSONRequestSerializer.m */; };
+		8FD4CFE7686E0257C7324826 /* EXRestAPISessionClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4CDA4F5549605B1208E60 /* EXRestAPISessionClient.m */; };
 		AF7B0FA13CF543A3B416DD68 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B69978F2C6A4744B8FE5FAA /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -129,6 +133,14 @@
 		18BCEF9717AE68BE003B22B2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1B69978F2C6A4744B8FE5FAA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		35A1C7E4AF0C4332986B7EFF /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		8FD4C069B785B4541D7581CF /* EXRestAPISessionClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXRestAPISessionClient.h; sourceTree = "<group>"; };
+		8FD4C456C9ED365BA9066BC8 /* EXRestAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXRestAPIHelper.h; sourceTree = "<group>"; };
+		8FD4C6DB99C12121A80966D1 /* EXSessionRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXSessionRestAPI.h; sourceTree = "<group>"; };
+		8FD4C6EA1BCBD671DAE46762 /* EXJSONRequestSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXJSONRequestSerializer.m; sourceTree = "<group>"; };
+		8FD4CA2896DC77EC6972D5D6 /* EXJSONRequestSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXJSONRequestSerializer.h; sourceTree = "<group>"; };
+		8FD4CC15EC2FEAE7D07FA76A /* EXSessionRestAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXSessionRestAPI.m; sourceTree = "<group>"; };
+		8FD4CDA4F5549605B1208E60 /* EXRestAPISessionClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXRestAPISessionClient.m; sourceTree = "<group>"; };
+		8FD4CFD8F5BC1A611237FAE6 /* EXRestAPIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXRestAPIHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +268,14 @@
 				18BCEF2817AE61DA003B22B2 /* EXRestAPI.m */,
 				18BCEF2917AE61DA003B22B2 /* EXRestAPIClient.h */,
 				18BCEF2A17AE61DA003B22B2 /* EXRestAPIClient.m */,
+				8FD4C6EA1BCBD671DAE46762 /* EXJSONRequestSerializer.m */,
+				8FD4CA2896DC77EC6972D5D6 /* EXJSONRequestSerializer.h */,
+				8FD4CDA4F5549605B1208E60 /* EXRestAPISessionClient.m */,
+				8FD4C069B785B4541D7581CF /* EXRestAPISessionClient.h */,
+				8FD4CFD8F5BC1A611237FAE6 /* EXRestAPIHelper.m */,
+				8FD4C456C9ED365BA9066BC8 /* EXRestAPIHelper.h */,
+				8FD4CC15EC2FEAE7D07FA76A /* EXSessionRestAPI.m */,
+				8FD4C6DB99C12121A80966D1 /* EXSessionRestAPI.h */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -452,6 +472,10 @@
 				18BCEFB017AE68FD003B22B2 /* EXTooltipImageView.m in Sources */,
 				18BCEFB117AE68FD003B22B2 /* EXValidatableTextField.m in Sources */,
 				186E728317BCBE43006DB794 /* EXLocalNotificationView.m in Sources */,
+				8FD4C6FCC4B751D34977FC88 /* EXJSONRequestSerializer.m in Sources */,
+				8FD4CFE7686E0257C7324826 /* EXRestAPISessionClient.m in Sources */,
+				8FD4C0D378F3CBF39C73A5BF /* EXRestAPIHelper.m in Sources */,
+				8FD4C529A56CD1CF5D276A6C /* EXSessionRestAPI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,12 +496,21 @@
 		1876FE4E17AE4A680025A4E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
 		1876FE4F17AE4A680025A4E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -514,7 +547,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "ExHelpersTestBuild/ExHelpersTestBuild-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -548,7 +581,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "ExHelpersTestBuild/ExHelpersTestBuild-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

@@ -176,8 +176,13 @@
 }
 
 - (void)stopObservingViewController:(UIViewController *)viewController {
-    [self.viewControllers[self.currentSelectedIndex] removeObserver:self forKeyPath:@"title"];
-    [self.viewControllers[self.currentSelectedIndex] removeObserver:self forKeyPath:@"toolbarItems"];
+    @try {
+        [self.viewControllers[self.currentSelectedIndex] removeObserver:self forKeyPath:@"title"];
+        [self.viewControllers[self.currentSelectedIndex] removeObserver:self forKeyPath:@"toolbarItems"];
+    }
+    @catch(id anException) {
+    
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

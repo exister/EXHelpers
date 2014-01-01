@@ -10,7 +10,9 @@ typedef NS_ENUM(NSInteger, EXSegmentedViewControllerControlPosition) {
 
 @property (nonatomic, readonly, strong) UISegmentedControl *segmentedControl;
 @property (nonatomic) EXSegmentedViewControllerControlPosition position;
-@property (nonatomic, strong) UIView *containerView;
+@property (nonatomic, strong) IBOutlet UIView *containerView;
+
+@property (nonatomic, strong) UIViewController *currentDetailViewController;
 
 // NSArray of UIViewController subclasses
 - (id)initWithViewControllers:(NSArray *)viewControllers;

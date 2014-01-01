@@ -6,32 +6,28 @@
 @property (nonatomic, strong) NSMutableArray *viewControllers;
 @property (nonatomic, strong) NSMutableArray *titles;
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
-
 @property (nonatomic) NSInteger currentSelectedIndex;
-
-@property (nonatomic) BOOL hasAppeared;
 @end
 
 @implementation EXSegmentedViewController {
 
 }
 
-- (CGRect)frameForView {
-    if (self.containerView != nil) {
-        return self.containerView.frame;
-    }
-    return self.view.frame;
+- (CGRect)frameForDetailController {
+    return self.containerView.bounds;
 }
 
 - (NSMutableArray *)viewControllers {
-    if (!_viewControllers)
+    if (!_viewControllers) {
         _viewControllers = [NSMutableArray array];
+    }
     return _viewControllers;
 }
 
 - (NSMutableArray *)titles {
-    if (!_titles)
+    if (!_titles) {
         _titles = [NSMutableArray array];
+    }
     return _titles;
 }
 
@@ -86,29 +82,57 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.containerView.accessibilityIdentifier = @"containerView";
+
     self.currentSelectedIndex = DEFAULT_SELECTED_INDEX;
     [self observeViewController:self.viewControllers[self.currentSelectedIndex]];
+
+    [self presentDetailController:self.viewControllers[self.currentSelectedIndex]];
+    [self updateBarsForViewController:self.currentDetailViewController];
 }
 
 - (void)viewDidUnload {
     [self stopObservingViewController:self.viewControllers[self.currentSelectedIndex]];
-    [super viewDidUnload];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if (!self.hasAppeared) {
-        self.hasAppeared = YES;
-        UIViewController *currentViewController = self.viewControllers[self.currentSelectedIndex];
-        [self addChildViewController:currentViewController];
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
 
-        currentViewController.view.frame = [self frameForView];
-        [self.view addSubview:currentViewController.view];
+    self.currentDetailViewController.view.frame = self.frameForDetailController;
+}
 
-        [currentViewController didMoveToParentViewController:self];
-
-        [self updateBarsForViewController:currentViewController];
+- (void)presentDetailController:(UIViewController *)detailVC {
+    //0. Remove the current Detail View Controller showed
+    if (self.currentDetailViewController){
+        [self removeCurrentDetailViewController];
     }
+
+    //1. Add the detail controller as child of the container
+    [self addChildViewController:detailVC];
+
+    //2. Define the detail controller's view size
+    detailVC.view.frame = [self frameForDetailController];
+
+    //3. Add the Detail controller's view to the Container's detail view and save a reference to the detail View Controller
+    [self.containerView addSubview:detailVC.view];
+    self.currentDetailViewController = detailVC;
+
+    //4. Complete the add flow calling the function didMoveToParentViewController
+    [detailVC didMoveToParentViewController:self];
+}
+
+- (void)removeCurrentDetailViewController{
+    //1. Call the willMoveToParentViewController with nil
+    //   This is the last method where your detailViewController can perform some operations before being removed
+    [self.currentDetailViewController willMoveToParentViewController:nil];
+
+    //2. Remove the DetailViewController's view from the Container
+    [self.currentDetailViewController.view removeFromSuperview];
+
+    //3. Update the hierarchy"
+    //   Automatically the method didMoveToParentViewController: will be called on the detailViewController)
+    [self.currentDetailViewController removeFromParentViewController];
 }
 
 - (void)moveControlToPosition:(EXSegmentedViewControllerControlPosition)newPosition {
@@ -118,14 +142,11 @@
             self.navigationItem.titleView = self.segmentedControl;
             break;
         case EXSegmentedViewControllerControlPositionToolbar: {
-
             UIBarButtonItem *flexible = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                       target:nil
                                                                                       action:nil];
             UIBarButtonItem *control = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
-
             self.toolbarItems = @[flexible, control, flexible];
-
             break;
         }
     }
@@ -135,30 +156,40 @@
 }
 
 - (void)changeViewController:(UISegmentedControl *)segmentedControl {
+    //1. The current controller is going to be removed
+    [self stopObservingViewController:self.currentDetailViewController];
+    [self.currentDetailViewController willMoveToParentViewController:nil];
 
-    UIViewController *oldViewController = self.viewControllers[self.currentSelectedIndex];
-    [oldViewController willMoveToParentViewController:nil];
-    [self stopObservingViewController:oldViewController];
+    //2. The new controller is a new child of the container
+    UIViewController *viewController = self.viewControllers[segmentedControl.selectedSegmentIndex];
+    [self addChildViewController:viewController];
 
-    UIViewController *newViewController = self.viewControllers[segmentedControl.selectedSegmentIndex];
-    [self addChildViewController:newViewController];
-    newViewController.view.frame = [self frameForView];
+    //3. Setup the new controller's frame depending on the animation you want to obtain
+    viewController.view.frame = self.currentDetailViewController.view.frame;
 
-    [self transitionFromViewController:oldViewController
-                      toViewController:newViewController
-                              duration:0
-                               options:UIViewAnimationOptionTransitionNone
-                            animations:nil
-                            completion:^(BOOL finished) {
-                                if (finished) {
-                                    [newViewController didMoveToParentViewController:self];
+    //3b. Attach the new view to the views hierarchy
+    [self.containerView addSubview:viewController.view];
 
-                                    [self updateBarsForViewController:newViewController];
-                                    [self observeViewController:newViewController];
+    [UIView animateWithDuration:1.3
+            //4. Animate the views to create a transition effect
+                     animations:nil
+            //5. At the end of the animations we remove the previous view and update the hierarchy.
+                     completion:^(BOOL finished) {
+                         //Remove the old Detail Controller view from superview
+                         [self.currentDetailViewController.view removeFromSuperview];
 
-                                    self.currentSelectedIndex = segmentedControl.selectedSegmentIndex;
-                                }
-                            }];
+                         //Remove the old Detail controller from the hierarchy
+                         [self.currentDetailViewController removeFromParentViewController];
+
+                         //Set the new view controller as current
+                         self.currentDetailViewController = viewController;
+                         [self.currentDetailViewController didMoveToParentViewController:self];
+
+                         [self updateBarsForViewController:self.currentDetailViewController];
+                         [self observeViewController:self.currentDetailViewController];
+
+                         self.currentSelectedIndex = segmentedControl.selectedSegmentIndex;
+                     }];
 }
 
 - (void)updateBarsForViewController:(UIViewController *)viewController {
@@ -176,13 +207,8 @@
 }
 
 - (void)stopObservingViewController:(UIViewController *)viewController {
-    @try {
-        [self.viewControllers[self.currentSelectedIndex] removeObserver:self forKeyPath:@"title"];
-        [self.viewControllers[self.currentSelectedIndex] removeObserver:self forKeyPath:@"toolbarItems"];
-    }
-    @catch(id anException) {
-    
-    }
+    [self.viewControllers[self.currentSelectedIndex] removeObserver:self forKeyPath:@"title"];
+    [self.viewControllers[self.currentSelectedIndex] removeObserver:self forKeyPath:@"toolbarItems"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

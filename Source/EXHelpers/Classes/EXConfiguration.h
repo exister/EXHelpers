@@ -7,6 +7,11 @@
 #define kEXTestFlightAppToken @""
 
 /**
+* Flurry
+*/
+#define kEXFlurrySessionToken @""
+
+/**
  * JIRA
  */
 #define kEXJIRAHost @""

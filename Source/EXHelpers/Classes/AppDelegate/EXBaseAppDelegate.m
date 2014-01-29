@@ -8,7 +8,6 @@
 
 #import "EXBaseAppDelegate.h"
 #import "UIViewController+EXStoryBoard.h"
-#import "DDLog.h"
 #import "DDASLLogger.h"
 #import "DDTTYLogger.h"
 #import "EXLocationManager.h"
@@ -192,19 +191,22 @@ __CLASS__PREFIX__TestControllerfailureCount]);
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
 
 #ifdef BETA
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [TestFlight takeOff:@""];//TODO
-    });
+    if (![kEXTestFlightAppToken stringIsEmpty]) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [TestFlight takeOff:kEXTestFlightAppToken];
+        });
+    }
 #endif
 
 #ifdef RELEASE
-    #error No Flurry token
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [Flurry setAppVersion:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-        [Flurry setShowErrorInLogEnabled:YES];
-        [Flurry setDebugLogEnabled:YES];
-        [Flurry startSession:@""];//TODO
-    });
+    if (![kEXFlurrySessionToken stringIsEmpty]) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [Flurry setAppVersion:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+            [Flurry setShowErrorInLogEnabled:YES];
+            [Flurry setDebugLogEnabled:YES];
+            [Flurry startSession:kEXFlurrySessionToken];
+        });
+    }
 #endif
 
 #ifndef LOCAL
